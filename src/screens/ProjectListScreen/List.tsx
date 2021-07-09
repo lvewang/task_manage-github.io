@@ -1,4 +1,3 @@
-import React from "react";
 import { User } from "./SearchPanel";
 interface Project {
   id: string;
