@@ -1,20 +1,8 @@
+import { useAuth } from "context/AuthContext";
 import { FormEvent } from "react";
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const Login = () => {
-  const login = (param: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    }).then(async (response) => {
-      if (response.ok) {
-        console.log("loggedin");
-      }
-    });
-  };
+  const { login, user } = useAuth();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
