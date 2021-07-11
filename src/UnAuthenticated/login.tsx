@@ -1,27 +1,32 @@
 import { useAuth } from "context/AuthContext";
 import { FormEvent } from "react";
+import { Form, Input, Button } from "antd";
 
 export const Login = () => {
   const { login, user } = useAuth();
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
-    const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ username, password });
+  const handleSubmit = (values: { username: string; password: string }) => {
+    login(values);
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username"> name </label>
-        <input type="text" id={"username"} />
-        <div>
-          <label htmlFor="password">password</label>
-          <input type="password" id={"password"} />
-        </div>
-      </div>
-      <div>
-        <button type="submit"> Login </button>
-      </div>
-    </form>
+    <Form onFinish={handleSubmit}>
+      <Form.Item
+        name={"username"}
+        rules={[{ required: true, message: "please input user name" }]}
+      >
+        <Input placeholder={"user name"} type="text" id={"username"} />
+      </Form.Item>
+      <Form.Item
+        name={"password"}
+        rules={[{ required: true, message: "please input password" }]}
+      >
+        <Input placeholder={"password"} type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType={"submit"} type={"primary"}>
+          {" "}
+          Login{" "}
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };

@@ -1,3 +1,5 @@
+import { Table } from "antd";
+import { spawn } from "child_process";
 import { User } from "./SearchPanel";
 interface Project {
   id: string;
@@ -13,24 +15,27 @@ interface ListProps {
 }
 export const List = ({ users, list }: ListProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>leader</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
-              {users.find((user) => user.id === project.personId)?.name ||
-                "unknown"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "project name",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "manager",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "unknown"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    ></Table>
   );
 };
