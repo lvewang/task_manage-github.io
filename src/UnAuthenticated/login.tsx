@@ -1,6 +1,7 @@
 import { useAuth } from "context/AuthContext";
 import { FormEvent } from "react";
 import { Form, Input, Button } from "antd";
+import { LongButton } from "UnAuthenticated";
 
 export const Login = () => {
   const { login, user } = useAuth();
@@ -22,10 +23,10 @@ export const Login = () => {
         <Input placeholder={"password"} type="password" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={"submit"} type={"primary"}>
+        <LongButton htmlType={"submit"} type={"primary"}>
           {" "}
           Login{" "}
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
