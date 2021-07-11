@@ -14,7 +14,9 @@ export const UnAuthenticated = () => {
     setIsRegister(!isRegister);
   };
   return (
-    <Container style={{ display: "flex", justifyContent: "center" }}>
+    <Container>
+      <Header />
+      <Background />
       <ShadowCard>
         <Title>{isRegister ? "please login" : "please register"}</Title>
         {isRegister ? <Register /> : <Login />}
