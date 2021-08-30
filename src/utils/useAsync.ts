@@ -33,7 +33,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
       })
       .catch((error) => {
         setError(error);
-        return error;
+        return Promise.reject(error);
       });
   };
   return {

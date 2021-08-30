@@ -2,15 +2,17 @@ import { useAuth } from "context/AuthContext";
 import { FormEvent } from "react";
 import { Form, Input, Button } from "antd";
 import { LongButton } from "UnAuthenticated";
+import { useAsync } from "utils/useAsync";
 
 export const Login = ({ onError }: { onError: (error: Error) => void }) => {
   const { login, user } = useAuth();
+  const { run, isLoading } = useAsync();
   const handleSubmit = async (values: {
     username: string;
     password: string;
   }) => {
     try {
-      await login(values);
+      await run(login(values));
     } catch (e) {
       onError(e);
     }
@@ -30,7 +32,7 @@ export const Login = ({ onError }: { onError: (error: Error) => void }) => {
         <Input placeholder={"password"} type="password" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={"submit"} type={"primary"}>
+        <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>
           {" "}
           Login{" "}
         </LongButton>
