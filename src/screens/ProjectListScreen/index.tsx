@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Typography } from "antd";
 import * as qs from "qs";
 import { useEffect, useState } from "react";
 import { cleanObject, useDebounce, useMount } from "utils";
@@ -10,11 +11,22 @@ export const ProjectListScreen = () => {
   const [param, setParam] = useState({ name: "", personId: "" });
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<null | Error>(null);
 
   const debouncedParam = useDebounce(param, 200);
   const client = useHttp();
   useEffect(() => {
-    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
+    setIsLoading(true);
+    client("projects", { data: cleanObject(debouncedParam) })
+      .then(setList)
+      .catch((error) => {
+        setList([]);
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [debouncedParam]);
 
   useMount(() => {
@@ -28,7 +40,10 @@ export const ProjectListScreen = () => {
         param={param}
         setParam={setParam}
       ></SearchPanel>
-      <List users={users} list={list}></List>
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <List loading={isLoading} users={users} dataSource={list}></List>
     </Container>
   );
 };
