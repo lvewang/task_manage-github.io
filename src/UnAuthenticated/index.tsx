@@ -14,14 +14,18 @@ export const UnAuthenticated = () => {
     setIsRegister(!isRegister);
   };
   const [error, setError] = useState<Error | null>(null);
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 17 ~ UnAuthenticated ~ error",
-    error
-  );
   return (
     <Container>
       <Header />
       <Background />
+      <Button
+        onClick={() => {
+          throw new Error("click throw an error");
+        }}
+      >
+        {" "}
+        throw errors
+      </Button>
       <ShadowCard>
         <Title>{!isRegister ? "please login" : "please register"}</Title>
         {error ? (

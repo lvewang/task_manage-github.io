@@ -8,8 +8,10 @@ import userEvent from "@testing-library/user-event";
 
 export const Authenticated = () => {
   const { logout, user } = useAuth();
+  const value: any = undefined;
   return (
     <Container>
+      {value.notExist}
       <Header between={true}>
         <HeaderLeft gap={true}>
           <SoftwareLogo
