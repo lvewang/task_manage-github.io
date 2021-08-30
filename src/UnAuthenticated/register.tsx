@@ -1,11 +1,27 @@
 import { useAuth } from "context/AuthContext";
 import { FormEvent } from "react";
 import { Form, Input, Button } from "antd";
+import Password from "antd/lib/input/Password";
 
-export const Register = () => {
+export const Register = ({ onError }: { onError: (error: Error) => void }) => {
   const { register, user } = useAuth();
-  const handleSubmit = (values: { username: string; password: string }) => {
-    register(values);
+  const handleSubmit = async ({
+    cpassword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
+    if (values.password != cpassword) {
+      onError(new Error("please confirm password and cpassword are the same"));
+      return;
+    }
+    try {
+      await register(values);
+    } catch (e) {
+      onError(e);
+    }
   };
   return (
     <Form onFinish={handleSubmit}>
@@ -20,6 +36,12 @@ export const Register = () => {
         rules={[{ required: true, message: "please input password" }]}
       >
         <Input placeholder={"password"} type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "please confirm password" }]}
+      >
+        <Input placeholder={"password"} type="password" id={"cpassword"} />
       </Form.Item>
       <Form.Item>
         <Button htmlType={"submit"} type={"primary"}>

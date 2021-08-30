@@ -1,8 +1,9 @@
 import { Table, TableProps } from "antd";
 import { spawn } from "child_process";
+import { EPROTONOSUPPORT } from "constants";
 import dayjs from "dayjs";
 import { User } from "./SearchPanel";
-interface Project {
+export interface Project {
   id: string;
   name: string;
   personId: string;

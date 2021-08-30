@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Login } from "./login";
 import { Register } from "./register";
-import { Card, Button, Divider } from "antd";
+import { Card, Button, Divider, Typography } from "antd";
 import styled from "@emotion/styled";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
@@ -13,13 +13,25 @@ export const UnAuthenticated = () => {
   const handleClick = () => {
     setIsRegister(!isRegister);
   };
+  const [error, setError] = useState<Error | null>(null);
+  console.log(
+    "🚀 ~ file: index.tsx ~ line 17 ~ UnAuthenticated ~ error",
+    error
+  );
   return (
     <Container>
       <Header />
       <Background />
       <ShadowCard>
-        <Title>{isRegister ? "please login" : "please register"}</Title>
-        {isRegister ? <Register /> : <Login />}
+        <Title>{!isRegister ? "please login" : "please register"}</Title>
+        {error ? (
+          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+        ) : null}
+        {isRegister ? (
+          <Register onError={setError} />
+        ) : (
+          <Login onError={setError} />
+        )}
         <Divider />
         <a onClick={handleClick}>
           <span>switch to</span> {isRegister ? "login" : "register"}
