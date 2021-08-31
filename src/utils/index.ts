@@ -60,3 +60,5 @@ export const useArray = <V>(persons: V[]) => {
   };
   return { value, clear, removeIndex, add };
 };
+
+export const resetRoute = () => (window.location.href = window.location.origin);

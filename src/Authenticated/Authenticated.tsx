@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
-import { Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
 import { useAuth } from "context/AuthContext";
-import { ProjectListScreen } from "screens/ProjectListScreen";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
+import { ProjectListScreen } from "screens/ProjectListScreen";
+import { resetRoute } from "utils";
 
 export const Authenticated = () => {
   return (
@@ -20,6 +21,7 @@ export const Authenticated = () => {
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
+            <Navigate to={"/projects"} />
           </Routes>
         </Router>
       </Main>
@@ -32,10 +34,10 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo
-          width={"18rem"}
-          color={"rgb(38, 132, 255)"}
-        ></SoftwareLogo>
+        <Button type={"link"} onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        </Button>
+
         <h3>Project</h3>
         <h3>User</h3>
       </HeaderLeft>
