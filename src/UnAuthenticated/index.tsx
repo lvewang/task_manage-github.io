@@ -18,14 +18,6 @@ export const UnAuthenticated = () => {
     <Container>
       <Header />
       <Background />
-      <Button
-        onClick={() => {
-          throw new Error("click throw an error");
-        }}
-      >
-        {" "}
-        throw errors
-      </Button>
       <ShadowCard>
         <Title>{!isRegister ? "please login" : "please register"}</Title>
         {error ? (
