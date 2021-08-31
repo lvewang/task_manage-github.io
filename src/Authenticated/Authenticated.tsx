@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
+import { Dropdown, Menu } from "antd";
+import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
 import { useAuth } from "context/AuthContext";
 import { ProjectListScreen } from "screens/ProjectListScreen";
-import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Dropdown, Menu } from "antd";
-import userEvent from "@testing-library/user-event";
 
 export const Authenticated = () => {
   const { logout, user } = useAuth();
-  const value: any = undefined;
   return (
     <Container>
-      {value.notExist}
       <Header between={true}>
         <HeaderLeft gap={true}>
           <SoftwareLogo
