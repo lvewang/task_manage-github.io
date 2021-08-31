@@ -7,13 +7,17 @@ import { useUser } from "utils/user";
 import { List } from "./List";
 import { SearchPanel } from "./SearchPanel";
 import { useDocumentTitle } from "utils/useDocumentTitle";
+import { useUrlQueryParam } from "utils/url";
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({ name: "", personId: "" });
+  const [, setParam] = useState({ name: "", personId: "" });
+  const [param] = useUrlQueryParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 200);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUser();
   useDocumentTitle("Project list", false);
+  // useUrlQueryParam(['name'])
+  // const test = useUrlQueryParam(['name'])
 
   return (
     <Container>
