@@ -4,44 +4,60 @@ import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
 import { useAuth } from "context/AuthContext";
 import { ProjectListScreen } from "screens/ProjectListScreen";
+import { Navigate, Route, Routes } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ProjectScreen } from "screens/project";
 
 export const Authenticated = () => {
-  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <SoftwareLogo
-            width={"18rem"}
-            color={"rgb(38, 132, 255)"}
-          ></SoftwareLogo>
-          <h3>Project</h3>
-          <h3>User</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={"logout"}>
-                  <a href="" onClick={logout}>
-                    {" "}
-                    logout
-                  </a>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <a onClick={(e) => e.preventDefault()}>Hello, {user?.name}</a>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
+      <PageHeader />
       <Main>
-        <ProjectListScreen />
+        <Router>
+          <Routes>
+            <Route path={"/projects"} element={<ProjectListScreen />} />
+            <Route
+              path={"/projects/:projectId/*"}
+              element={<ProjectScreen />}
+            />
+          </Routes>
+        </Router>
       </Main>
     </Container>
   );
 };
 
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <SoftwareLogo
+          width={"18rem"}
+          color={"rgb(38, 132, 255)"}
+        ></SoftwareLogo>
+        <h3>Project</h3>
+        <h3>User</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key={"logout"}>
+                <a href="" onClick={logout}>
+                  {" "}
+                  logout
+                </a>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <a onClick={(e) => e.preventDefault()}>Hello, {user?.name}</a>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
+  );
+};
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局 还是 二维布局

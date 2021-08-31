@@ -1,7 +1,6 @@
 import { Table, TableProps } from "antd";
-import { spawn } from "child_process";
-import { EPROTONOSUPPORT } from "constants";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 import { User } from "./SearchPanel";
 export interface Project {
   id: string;
@@ -23,8 +22,10 @@ export const List = ({ users, ...props }: ListProps) => {
       columns={[
         {
           title: "project name",
-          dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: "department",
