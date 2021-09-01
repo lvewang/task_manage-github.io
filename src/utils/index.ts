@@ -18,7 +18,7 @@ export const useMount = (func: () => void) => {
   useEffect(() => func(), []);
 };
 
-export const useDebounce = (term: any, delay?: number) => {
+export const useDebounce = <V>(term: V, delay?: number) => {
   const [debouncedTerm, setDebouncedTerm] = useState(term);
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedTerm(term), delay);

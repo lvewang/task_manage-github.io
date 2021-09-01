@@ -8,16 +8,14 @@ import { List } from "./List";
 import { SearchPanel } from "./SearchPanel";
 import { useDocumentTitle } from "utils/useDocumentTitle";
 import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParams } from "./util";
 
 export const ProjectListScreen = () => {
-  // const [, setParam] = useState({ name: "", personId: "" });
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
-  // setParam({name1:"aa"})
-
-  const debouncedParam = useDebounce(param, 200);
-  const { isLoading, error, data: list } = useProjects(debouncedParam);
-  const { data: users } = useUser();
   useDocumentTitle("Project list", false);
+
+  const [param, setParam] = useProjectsSearchParams();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
+  const { data: users } = useUser();
 
   return (
     <Container>
@@ -39,7 +37,7 @@ export const ProjectListScreen = () => {
   );
 };
 
-ProjectListScreen.whyDidYouRender = false;
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
