@@ -1,7 +1,5 @@
+import { Button, Form, Input } from "antd";
 import { useAuth } from "context/AuthContext";
-import { FormEvent } from "react";
-import { Form, Input, Button } from "antd";
-import Password from "antd/lib/input/Password";
 
 export const Register = ({ onError }: { onError: (error: Error) => void }) => {
   const { register, user } = useAuth();
@@ -13,7 +11,7 @@ export const Register = ({ onError }: { onError: (error: Error) => void }) => {
     password: string;
     cpassword: string;
   }) => {
-    if (values.password != cpassword) {
+    if (values.password !== cpassword) {
       onError(new Error("please confirm password and cpassword are the same"));
       return;
     }

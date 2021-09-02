@@ -1,11 +1,10 @@
-import React, { ReactNode } from "react";
-import { useState } from "react";
 import * as auth from "AuthProvider";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import React, { ReactNode } from "react";
 import { User } from "screens/ProjectListScreen/SearchPanel";
-import { http } from "../utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/useAsync";
-import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import { http } from "../utils/http";
 
 interface AuthForm {
   username: string;

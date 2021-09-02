@@ -46,15 +46,14 @@ const PageHeader = () => {
           overlay={
             <Menu>
               <Menu.Item key={"logout"}>
-                <a href="" onClick={logout}>
-                  {" "}
-                  logout
-                </a>
+                <Button onClick={logout}> logout</Button>
               </Menu.Item>
             </Menu>
           }
         >
-          <a onClick={(e) => e.preventDefault()}>Hello, {user?.name}</a>
+          <Button type={"link"} onClick={(e) => e.preventDefault()}>
+            Hello, {user?.name}
+          </Button>
         </Dropdown>
       </HeaderRight>
     </Header>

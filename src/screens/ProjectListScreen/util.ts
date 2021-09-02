@@ -1,12 +1,4 @@
-import styled from "@emotion/styled";
-import { Typography } from "antd";
-import { useMemo, useState } from "react";
-import { useDebounce } from "utils";
-import { useProjects } from "utils/project";
-import { useUser } from "utils/user";
-import { List } from "./List";
-import { SearchPanel } from "./SearchPanel";
-import { useDocumentTitle } from "utils/useDocumentTitle";
+import { useMemo } from "react";
 import { useUrlQueryParam } from "utils/url";
 
 export const useProjectsSearchParams = () => {

@@ -1,13 +1,11 @@
 import styled from "@emotion/styled";
 import { Typography } from "antd";
-import { useState } from "react";
 import { useDebounce } from "utils";
 import { useProjects } from "utils/project";
+import { useDocumentTitle } from "utils/useDocumentTitle";
 import { useUser } from "utils/user";
 import { List } from "./List";
 import { SearchPanel } from "./SearchPanel";
-import { useDocumentTitle } from "utils/useDocumentTitle";
-import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams } from "./util";
 
 export const ProjectListScreen = () => {

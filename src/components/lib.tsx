@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Divider, Spin, Typography } from "antd";
+import { Spin, Typography } from "antd";
 import React from "react";
 
 export const Row = styled.div<{
