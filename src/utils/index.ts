@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const isFalsy = (value: any) => (value === 0 ? false : !value);
 export const isVoid = (value: unknown) =>
@@ -66,3 +66,14 @@ export const useArray = <V>(persons: V[]) => {
 };
 
 export const resetRoute = () => (window.location.href = window.location.origin);
+
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+  return mountedRef;
+};
