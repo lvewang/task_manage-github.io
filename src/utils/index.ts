@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 export const isFalsy = (value: any) => (value === 0 ? false : !value);
-export const cleanObject = (obj: object) => {
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
+export const cleanObject = (obj: { [key: string]: unknown }) => {
   const result = { ...obj };
   Object.keys(result).forEach((key) => {
-    // @ts-ignore
     const value = result[key];
-    if (isFalsy(value)) {
-      // @ts-ignore
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -15,7 +15,11 @@ export const cleanObject = (obj: object) => {
 };
 
 export const useMount = (func: () => void) => {
-  useEffect(() => func(), []);
+  useEffect(
+    () => func(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 };
 
 export const useDebounce = <V>(term: V, delay?: number) => {

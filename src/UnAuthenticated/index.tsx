@@ -31,9 +31,9 @@ export const UnAuthenticated = () => {
           <Login onError={setError} />
         )}
         <Divider />
-        <a onClick={handleClick}>
+        <Button type={"link"} onClick={handleClick}>
           <span>switch to</span> {isRegister ? "login" : "register"}
-        </a>
+        </Button>
       </ShadowCard>
     </Container>
   );

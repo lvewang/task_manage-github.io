@@ -13,7 +13,7 @@ export const Login = ({ onError }: { onError: (error: Error) => void }) => {
     try {
       await run(login(values));
     } catch (e) {
-      onError(e);
+      onError(e as Error);
     }
   };
   return (
