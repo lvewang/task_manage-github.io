@@ -12,11 +12,17 @@ const defaultInitialState: State<null> = {
   data: null,
   error: null,
 };
-export const useAsync = <D>(initialState?: State<D>) => {
+const defaultConfig = { throwOnError: false };
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultConfig
+) => {
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
   });
+
+  const config = { ...defaultConfig, ...initialConfig };
   const mountedRef = useMountedRef();
   const [retry, setRetry] = useState(() => () => {});
   const setData = (data: D) => {
@@ -46,7 +52,10 @@ export const useAsync = <D>(initialState?: State<D>) => {
       })
       .catch((error) => {
         setError(error);
-        return Promise.reject(error);
+        if (config.throwOnError) {
+          return Promise.reject(error);
+        }
+        return error;
       });
   };
   return {

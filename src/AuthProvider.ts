@@ -35,10 +35,11 @@ export const register = (data: { username: string; password: string }) => {
     },
     body: JSON.stringify(data),
   }).then(async (response) => {
+    const res = await response.json();
     if (response.ok) {
       return handleUserResponse(await response.json());
     }
-    return Promise.reject(data);
+    return Promise.reject(res);
   });
 };
 

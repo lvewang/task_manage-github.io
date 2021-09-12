@@ -5,7 +5,7 @@ import { useAsync } from "utils/useAsync";
 
 export const Login = ({ onError }: { onError: (error: Error) => void }) => {
   const { login, user } = useAuth();
-  const { run, isLoading } = useAsync();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
   const handleSubmit = async (values: {
     username: string;
     password: string;

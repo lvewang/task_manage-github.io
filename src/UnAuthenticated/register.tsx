@@ -1,8 +1,10 @@
 import { Button, Form, Input } from "antd";
 import { useAuth } from "context/AuthContext";
+import { useAsync } from "utils/useAsync";
 
 export const Register = ({ onError }: { onError: (error: Error) => void }) => {
   const { register, user } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
   const handleSubmit = async ({
     cpassword,
     ...values
@@ -16,9 +18,9 @@ export const Register = ({ onError }: { onError: (error: Error) => void }) => {
       return;
     }
     try {
-      await register(values);
+      await run(register(values));
     } catch (e) {
-      onError(e);
+      onError(e as Error);
     }
   };
   return (
