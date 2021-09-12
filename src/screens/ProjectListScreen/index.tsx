@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Typography, Button } from "antd";
 import { useDebounce } from "utils";
 import { useProjects } from "utils/project";
 import { useDocumentTitle } from "utils/useDocumentTitle";
@@ -12,7 +12,12 @@ export const ProjectListScreen = () => {
   useDocumentTitle("Project list", false);
 
   const [param, setParam] = useProjectsSearchParams();
-  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
+  const {
+    isLoading,
+    error,
+    data: list,
+    retry,
+  } = useProjects(useDebounce(param, 200));
   const { data: users } = useUser();
 
   return (
@@ -27,6 +32,7 @@ export const ProjectListScreen = () => {
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
       <List
+        refresh={retry}
         loading={isLoading}
         users={users || []}
         dataSource={list || []}

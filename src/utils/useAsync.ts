@@ -16,15 +16,24 @@ export const useAsync = <D>(initialState?: State<D>) => {
     ...defaultInitialState,
     ...initialState,
   });
+  const [retry, setRetry] = useState(() => () => {});
   const setData = (data: D) => {
     setState({ data, stat: "success", error: null });
   };
   const setError = (error: Error) =>
     setState({ error, stat: "error", data: null });
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("Please pass Promise");
     }
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        return run(runConfig?.retry(), runConfig);
+      }
+    });
     setState({ ...state, stat: "loading" });
     return promise
       .then((data) => {
@@ -44,6 +53,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };
