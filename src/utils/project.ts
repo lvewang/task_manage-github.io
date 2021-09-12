@@ -15,3 +15,65 @@ export const useProjects = (param?: Partial<Project>) => {
 
   return rest;
 };
+
+export const useEditProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "PATCH",
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
+};
+
+export const useAddProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "POST",
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
+};
+// export const useEditProject = () => {
+//   const { run, ...asyncResult } = useAsync();
+//   const client = useHttp();
+//   const mutate = (params: Partial<Project>) => {
+//   console.log("🚀 ~ file: project.ts ~ line 23 ~ mutate ~ params", params)
+//     return run(
+//       client(`projects/${params.id}`, { data: {"id": params.id, "pin": params.pin}, method: "PATCH" })
+//     );
+//   };
+//   return {
+//     mutate,
+//     ...asyncResult
+//   };
+// }
+
+// export const useAddProject = () => {
+//   const { run, ...asyncResult } = useAsync();
+//   const client = useHttp();
+//   const mutate = (params: Partial<Project>) => {
+//     return run(
+//       client(`projects/${params.id}`, { data: params, method: "POST" })
+//     );
+//   };
+//   return {
+//     mutate,
+//     ...asyncResult
+//   };
+// }
