@@ -1,15 +1,19 @@
 import styled from "@emotion/styled";
 import { Typography, Button } from "antd";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
+import { useDispatch } from "react-redux";
 import { useDebounce } from "utils";
 import { useProjects } from "utils/project";
 import { useDocumentTitle } from "utils/useDocumentTitle";
 import { useUser } from "utils/user";
 import { List } from "./List";
+import { projectListActions } from "./project-list.slice";
 import { SearchPanel } from "./SearchPanel";
 import { useProjectsSearchParams } from "./util";
 
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+export const ProjectListScreen = () => {
+  const dispatch = useDispatch();
+
   useDocumentTitle("Project list", false);
 
   const [param, setParam] = useProjectsSearchParams();
@@ -25,7 +29,12 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
     <Container>
       <Row between={true}>
         <h1>Project list</h1>
-        {props.projectButton}
+        <ButtonNoPadding
+          type={"link"}
+          onClick={() => dispatch(projectListActions.openProjectModal())}
+        >
+          Create project
+        </ButtonNoPadding>
       </Row>
 
       <SearchPanel
@@ -37,7 +46,6 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
       <List
-        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         users={users || []}
