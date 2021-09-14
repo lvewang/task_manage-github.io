@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -12,52 +12,80 @@ const defaultInitialState: State<null> = {
   data: null,
   error: null,
 };
-const defaultConfig = { throwOnError: false };
+
+const defaultConfig = {
+  throwOnError: false,
+};
+
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
+};
+
 export const useAsync = <D>(
   initialState?: State<D>,
   initialConfig?: typeof defaultConfig
 ) => {
-  const [state, setState] = useState<State<D>>({
+  const config = { ...defaultConfig, ...initialConfig };
+  const reducer = (state: State<D>, action: Partial<State<D>>) => {
+    return { ...state, ...action };
+  };
+  const [state, dispatch] = useReducer(reducer, {
     ...defaultInitialState,
     ...initialState,
   });
+  const safeDispatch = useSafeDispatch(dispatch);
 
-  const config = { ...defaultConfig, ...initialConfig };
-  const mountedRef = useMountedRef();
   const [retry, setRetry] = useState(() => () => {});
-  const setData = (data: D) => {
-    setState({ data, stat: "success", error: null });
-  };
-  const setError = (error: Error) =>
-    setState({ error, stat: "error", data: null });
-  const run = (
-    promise: Promise<D>,
-    runConfig?: { retry: () => Promise<D> }
-  ) => {
-    if (!promise || !promise.then) {
-      throw new Error("Please pass Promise");
-    }
-    setRetry(() => () => {
-      if (runConfig?.retry) {
-        return run(runConfig?.retry(), runConfig);
+
+  const setData = useCallback(
+    (data: D) =>
+      safeDispatch({
+        data,
+        stat: "success",
+        error: null,
+      }),
+    [safeDispatch]
+  );
+
+  const setError = useCallback(
+    (error: Error) =>
+      safeDispatch({
+        error,
+        stat: "error",
+        data: null,
+      }),
+    [safeDispatch]
+  );
+  const run = useCallback(
+    (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+      if (!promise || !promise.then) {
+        throw new Error("Please pass Promise");
       }
-    });
-    setState({ ...state, stat: "loading" });
-    return promise
-      .then((data) => {
-        if (mountedRef.current) {
-          setData(data);
+      setRetry(() => () => {
+        if (runConfig?.retry) {
+          return run(runConfig?.retry(), runConfig);
         }
-        return data;
-      })
-      .catch((error) => {
-        setError(error);
-        if (config.throwOnError) {
-          return Promise.reject(error);
-        }
-        return error;
       });
-  };
+      safeDispatch({ stat: "loading" });
+      return promise
+        .then((data) => {
+          setData(data);
+          return data;
+        })
+        .catch((error) => {
+          setError(error);
+          if (config.throwOnError) {
+            return Promise.reject(error);
+          }
+          return error;
+        });
+    },
+    [safeDispatch, setData, setError, config.throwOnError]
+  );
   return {
     isIdle: state.stat === "idle",
     isLoading: state.stat === "loading",
