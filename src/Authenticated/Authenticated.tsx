@@ -1,22 +1,35 @@
 import styled from "@emotion/styled";
 import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
+import { ProjectPopover } from "components/project-popover";
 import { useAuth } from "context/AuthContext";
+import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 import { ProjectListScreen } from "screens/ProjectListScreen";
+import { ProjectModal } from "screens/ProjectListScreen/project-modal";
 import { resetRoute } from "utils";
 
 export const Authenticated = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const closeModal = () => () => setProjectModalOpen(false);
+  const projectButton = (
+    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type={"link"}>
+      Create project
+    </ButtonNoPadding>
+  );
   return (
     <Container>
-      <PageHeader />
+      <PageHeader projectButton={projectButton} />
       <Main>
         <Router>
           <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
+            <Route
+              path={"/projects"}
+              element={<ProjectListScreen projectButton={projectButton} />}
+            />
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
@@ -25,21 +38,24 @@ export const Authenticated = () => {
           </Routes>
         </Router>
       </Main>
+      <ProjectModal
+        onClose={closeModal()}
+        projectModalOpen={projectModalOpen}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   const { logout, user } = useAuth();
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
+        <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
-        </Button>
-
-        <h3>Project</h3>
-        <h3>User</h3>
+        </ButtonNoPadding>
+        <ProjectPopover {...props} />
+        <span>User</span>
       </HeaderLeft>
       <HeaderRight>
         <Dropdown
