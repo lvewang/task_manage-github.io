@@ -37,7 +37,7 @@ export const register = (data: { username: string; password: string }) => {
   }).then(async (response) => {
     const res = await response.json();
     if (response.ok) {
-      return handleUserResponse(res);
+      return handleUserResponse(await response.json());
     }
     return Promise.reject(res);
   });
