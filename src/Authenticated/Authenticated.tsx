@@ -13,22 +13,40 @@ import { ProjectModal } from "screens/ProjectListScreen/project-modal";
 import { resetRoute } from "utils";
 
 export const Authenticated = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const closeModal = () => () => setProjectModalOpen(false);
+  const projectButton = (
+    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type={"link"}>
+      Create project
+    </ButtonNoPadding>
+  );
   return (
     <Container>
-      <PageHeader />
+      <PageHeader projectButton={projectButton} />
       <Main>
-        <Routes>
-          <Route path={"/projects"} element={<ProjectListScreen />} />
-          <Route path={"/projects/:projectId/*"} element={<ProjectScreen />} />
-          <Navigate to={"/projects"} />
-        </Routes>
+        <Router>
+          <Routes>
+            <Route
+              path={"/projects"}
+              element={<ProjectListScreen projectButton={projectButton} />}
+            />
+            <Route
+              path={"/projects/:projectId/*"}
+              element={<ProjectScreen />}
+            />
+            <Navigate to={"/projects"} />
+          </Routes>
+        </Router>
       </Main>
-      <ProjectModal />
+      <ProjectModal
+        onClose={closeModal()}
+        projectModalOpen={projectModalOpen}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   const { logout, user } = useAuth();
   return (
     <Header between={true}>
@@ -36,7 +54,7 @@ const PageHeader = () => {
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        <ProjectPopover />
+        <ProjectPopover {...props} />
         <span>User</span>
       </HeaderLeft>
       <HeaderRight>
