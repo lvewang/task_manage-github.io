@@ -3,7 +3,7 @@ import { List, Popover, Typography } from "antd";
 import { useProjects } from "utils/project";
 import styled from "@emotion/styled";
 import { ButtonNoPadding } from "./lib";
-import { useProjectModal } from "utils/url";
+import { useProjectModal } from "screens/ProjectListScreen/util";
 
 export const ProjectPopover = () => {
   const { data: projects, isLoading } = useProjects();

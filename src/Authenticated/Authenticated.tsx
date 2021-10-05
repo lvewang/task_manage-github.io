@@ -13,7 +13,6 @@ import { ProjectModal } from "screens/ProjectListScreen/project-modal";
 import { resetRoute } from "utils";
 
 export const Authenticated = () => {
-  const projectButton = <ButtonNoPadding>Create project</ButtonNoPadding>;
   return (
     <Container>
       <Router>

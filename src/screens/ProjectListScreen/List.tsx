@@ -1,12 +1,11 @@
-import { render } from "@testing-library/react";
-import { Dropdown, Table, TableProps, Menu } from "antd";
+import { Dropdown, Menu, Table, TableProps } from "antd";
 import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
-import { useProjectModal } from "utils/url";
 import { User } from "./SearchPanel";
+import { useProjectModal } from "./util";
 export interface Project {
   id: number;
   name: string;
@@ -18,14 +17,13 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  refresh?: () => void;
 }
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   const { open } = useProjectModal();
-  // const pinProject = (id:number)=>(pin:boolean)=>mutate({"id":id, "pin":pin})
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(props.refresh);
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const editProject = (id: number) => () => startEdit(id);
+  const { startEdit } = useProjectModal();
   return (
     <Table
       rowKey={"id"}
@@ -82,12 +80,10 @@ export const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={"edit"}>
-                      {" "}
-                      <ButtonNoPadding type={"link"} onClick={open}>
-                        Edit project
-                      </ButtonNoPadding>{" "}
+                    <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+                      Edit project
                     </Menu.Item>
+                    <Menu.Item key={"delete"}>Delete project</Menu.Item>
                   </Menu>
                 }
               >

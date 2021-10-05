@@ -1,25 +1,19 @@
 import styled from "@emotion/styled";
 import { Typography, Button } from "antd";
-import { ButtonNoPadding, Row } from "components/lib";
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 import { useDebounce } from "utils";
 import { useProjects } from "utils/project";
-import { useProjectModal } from "utils/url";
 import { useDocumentTitle } from "utils/useDocumentTitle";
 import { useUser } from "utils/user";
 import { List } from "./List";
 import { SearchPanel } from "./SearchPanel";
-import { useProjectsSearchParams } from "./util";
+import { useProjectModal, useProjectsSearchParams } from "./util";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("Project list", false);
   const { open } = useProjectModal();
   const [param, setParam] = useProjectsSearchParams();
-  const {
-    isLoading,
-    error,
-    data: list,
-    retry,
-  } = useProjects(useDebounce(param, 200));
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
   const { data: users } = useUser();
 
   return (
@@ -36,11 +30,8 @@ export const ProjectListScreen = () => {
         param={param}
         setParam={setParam}
       ></SearchPanel>
-      {error ? (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      ) : null}
+      <ErrorBox error={error} />
       <List
-        refresh={retry}
         loading={isLoading}
         users={users || []}
         dataSource={list || []}

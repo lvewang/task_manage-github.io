@@ -8,6 +8,7 @@ import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
 import { useDocumentTitle } from "utils/useDocumentTitle";
+import { ErrorBox } from "components/lib";
 
 export const UnAuthenticated = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -16,15 +17,14 @@ export const UnAuthenticated = () => {
   };
   const [error, setError] = useState<Error | null>(null);
   useDocumentTitle("Please login to continue");
+
   return (
     <Container>
       <Header />
       <Background />
       <ShadowCard>
         <Title>{!isRegister ? "please login" : "please register"}</Title>
-        {error ? (
-          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-        ) : null}
+        <ErrorBox error={error} />
         {isRegister ? (
           <Register onError={setError} />
         ) : (
