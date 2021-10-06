@@ -37,55 +37,66 @@ export const ProjectModal = () => {
   }, [editingProject, form]);
 
   return (
-    <Drawer width={"100%"} visible={projectModalOpen} onClose={closeModal}>
-      {isLoading ? (
-        <Spin size={"large"} />
-      ) : (
-        <Container>
-          <h1>{title}</h1>
-          <ErrorBox error={error} />
-          <Form
-            form={form}
-            layout={"vertical"}
-            style={{ width: "40rem" }}
-            onFinish={onFinish}
-          >
-            <Form.Item
-              label={"Name"}
-              name={"name"}
-              rules={[{ required: true, message: "Please input project name" }]}
+    <Drawer
+      forceRender={true}
+      width={"100%"}
+      visible={projectModalOpen}
+      onClose={closeModal}
+    >
+      <Container>
+        {isLoading ? (
+          <Spin size={"large"} />
+        ) : (
+          <>
+            <h1>{title}</h1>
+            <ErrorBox error={error} />
+            <Form
+              form={form}
+              layout={"vertical"}
+              style={{ width: "40rem" }}
+              onFinish={onFinish}
             >
-              <Input placeholder={"Please input project name"} />
-            </Form.Item>
-            <Form.Item
-              label={"Department"}
-              name={"organization"}
-              rules={[
-                { required: true, message: "Please input organization name" },
-              ]}
-            >
-              <Input placeholder={"Please input organization name"} />
-            </Form.Item>
-            <Form.Item
-              label={"Manager"}
-              name={"personId"}
-              rules={[{ required: true, message: "Please input manager name" }]}
-            >
-              <UserSelect defaultOptionName={"Manager"} />
-            </Form.Item>
-            <Form.Item style={{ textAlign: "right" }}>
-              <Button
-                loading={mutateLoading}
-                type={"primary"}
-                htmlType={"submit"}
+              <Form.Item
+                label={"Name"}
+                name={"name"}
+                rules={[
+                  { required: true, message: "Please input project name" },
+                ]}
               >
-                {" "}
-                submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Container>
-      )}
+                <Input placeholder={"Please input project name"} />
+              </Form.Item>
+              <Form.Item
+                label={"Department"}
+                name={"organization"}
+                rules={[
+                  { required: true, message: "Please input organization name" },
+                ]}
+              >
+                <Input placeholder={"Please input organization name"} />
+              </Form.Item>
+              <Form.Item
+                label={"Manager"}
+                name={"personId"}
+                rules={[
+                  { required: true, message: "Please input manager name" },
+                ]}
+              >
+                <UserSelect defaultOptionName={"Manager"} />
+              </Form.Item>
+              <Form.Item style={{ textAlign: "right" }}>
+                <Button
+                  loading={mutateLoading}
+                  type={"primary"}
+                  htmlType={"submit"}
+                >
+                  {" "}
+                  submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </>
+        )}
+      </Container>
     </Drawer>
   );
 };
