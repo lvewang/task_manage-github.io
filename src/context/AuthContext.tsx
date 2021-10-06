@@ -1,6 +1,7 @@
 import * as auth from "AuthProvider";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 import React, { ReactNode } from "react";
+import { useQueryClient } from "react-query";
 import { User } from "screens/ProjectListScreen/SearchPanel";
 import { useMount } from "utils";
 import { useAsync } from "utils/useAsync";
@@ -53,8 +54,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useMount(() => {
     run(bootstrapUser());
   });
+  const queryClient = useQueryClient();
+
   const logout = () => {
-    return auth.logout().then(() => setUser(null));
+    return auth.logout().then(() => {
+      setUser(null);
+    });
+    queryClient.clear();
   };
 
   if (isIdle || isLoading) {
