@@ -1,5 +1,5 @@
 // if use third party such as firebase, no need to create this
-import { User } from "screens/ProjectListScreen/SearchPanel";
+import { User } from "types/User";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const localStorageKey = "__auth_provider_token__";

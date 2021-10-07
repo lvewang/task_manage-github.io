@@ -2,7 +2,7 @@ import * as auth from "AuthProvider";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 import React, { ReactNode } from "react";
 import { useQueryClient } from "react-query";
-import { User } from "screens/ProjectListScreen/SearchPanel";
+import { User } from "types/User";
 import { useMount } from "utils";
 import { useAsync } from "utils/useAsync";
 import { http } from "../utils/http";
