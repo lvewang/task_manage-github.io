@@ -24,7 +24,7 @@ export const Authenticated = () => {
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
-            <Navigate to={"/projects"} />
+            <Route element={<Navigate to={"/projects"} />} />
           </Routes>
         </Main>
         <ProjectModal />
