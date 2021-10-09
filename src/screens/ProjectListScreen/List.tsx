@@ -14,10 +14,7 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
   const queryKey = useProjectQueryKey();
   const { mutate } = useEditProject(queryKey);
-  const { open } = useProjectModal();
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
-  const editProject = (id: number) => () => startEdit(id);
-  const { startEdit } = useProjectModal();
   return (
     <Table
       rowKey={"id"}

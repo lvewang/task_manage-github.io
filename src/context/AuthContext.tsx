@@ -58,9 +58,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     return auth.logout().then(() => {
+      queryClient.clear();
       setUser(null);
     });
-    queryClient.clear();
   };
 
   if (isIdle || isLoading) {

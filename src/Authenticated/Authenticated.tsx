@@ -4,7 +4,6 @@ import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { ButtonNoPadding, Row } from "components/lib";
 import { ProjectPopover } from "components/project-popover";
 import { useAuth } from "context/AuthContext";
-import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";

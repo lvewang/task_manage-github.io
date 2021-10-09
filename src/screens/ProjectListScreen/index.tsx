@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Typography, Button } from "antd";
 import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 import { useDebounce } from "utils";
 import { useProjects } from "utils/project";

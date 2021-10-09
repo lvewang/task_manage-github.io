@@ -1,14 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import styled from "@emotion/styled";
+import { Button, Card, Divider } from "antd";
+import left from "assets/left.svg";
+import logo from "assets/logo.svg";
+import right from "assets/right.svg";
+import { ErrorBox } from "components/lib";
+import React, { useState } from "react";
+import { useDocumentTitle } from "utils/useDocumentTitle";
 import { Login } from "./login";
 import { Register } from "./register";
-import { Card, Button, Divider, Typography } from "antd";
-import styled from "@emotion/styled";
-import logo from "assets/logo.svg";
-import left from "assets/left.svg";
-import right from "assets/right.svg";
-import { useDocumentTitle } from "utils/useDocumentTitle";
-import { ErrorBox } from "components/lib";
 
 export const UnAuthenticated = () => {
   const [isRegister, setIsRegister] = useState(false);

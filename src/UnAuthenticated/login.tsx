@@ -4,7 +4,7 @@ import { LongButton } from "UnAuthenticated";
 import { useAsync } from "utils/useAsync";
 
 export const Login = ({ onError }: { onError: (error: Error) => void }) => {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
   const handleSubmit = async (values: {
     username: string;

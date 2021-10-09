@@ -14,7 +14,7 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   if (!name) {
     return null;
   }
-  return <img src={name === "task" ? taskIcon : bugIcon} />;
+  return <img src={name === "task" ? taskIcon : bugIcon} alt="#" />;
 };
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   const { data: allTasks } = useTask(useTasksSearchParams());

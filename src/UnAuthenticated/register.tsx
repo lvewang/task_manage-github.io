@@ -3,8 +3,8 @@ import { useAuth } from "context/AuthContext";
 import { useAsync } from "utils/useAsync";
 
 export const Register = ({ onError }: { onError: (error: Error) => void }) => {
-  const { register, user } = useAuth();
-  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { register } = useAuth();
+  const { run } = useAsync(undefined, { throwOnError: true });
   const handleSubmit = async ({
     cpassword,
     ...values

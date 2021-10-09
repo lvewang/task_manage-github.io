@@ -14,7 +14,6 @@ export const useProjectsSearchParams = () => {
 
 export const useProjectQueryKey = () => {
   const [searchParams] = useProjectsSearchParams();
-  const queryKey = ["projects", searchParams];
   return ["projects", searchParams];
 };
 
