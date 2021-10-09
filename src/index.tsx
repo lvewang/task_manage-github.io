@@ -7,7 +7,7 @@ import { DevTools, loadServer } from "jira-dev-tool";
 import "antd/dist/antd.less";
 import { AppProviders } from "context";
 
-loadServer(() => {
+loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
@@ -16,8 +16,8 @@ loadServer(() => {
       </AppProviders>
     </React.StrictMode>,
     document.getElementById("root")
-  );
-});
+  )
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
