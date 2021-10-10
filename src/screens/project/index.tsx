@@ -20,10 +20,10 @@ export const ProjectScreen = () => {
       <Aside>
         <Menu mode={"inline"} selectedKeys={[routeType]}>
           <Menu.Item key={"kanban"}>
-            <Link to={"kanban"}>board</Link>
+            <Link to={"../kanban"}>board</Link>
           </Menu.Item>
           <Menu.Item key={"epic"}>
-            <Link to={"epic"}>task group</Link>
+            <Link to={"../epic"}>task group</Link>
           </Menu.Item>
         </Menu>
       </Aside>
@@ -31,7 +31,7 @@ export const ProjectScreen = () => {
         <Routes>
           <Route path={"kanban"} element={<KanbanScreen />} />
           <Route path={"epic"} element={<EpicScreen />} />
-          <Navigate to={window.location.pathname + "/kanban"} replace={true} />
+          <Route element={<Navigate to={"kanban"} />} />
         </Routes>
       </Main>
     </Container>
