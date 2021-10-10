@@ -33,7 +33,7 @@ export const SearchPanel = () => {
       <TaskTypeSelect
         defaultOptionName={"task type"}
         value={searchParams.typeId}
-        onChange={(value) => setSearchParams({ processorId: value })}
+        onChange={(value) => setSearchParams({ typeId: value })}
       />
       <Button onClick={reset}>clear search</Button>
     </Row>
