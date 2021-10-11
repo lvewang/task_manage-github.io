@@ -7,6 +7,7 @@ import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
 import { Card } from "antd";
+import { CreateTask } from "./createTask";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -21,7 +22,7 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
 
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
-    <Container>
+    <KanbanContainer>
       <h3>{kanban.name}</h3>
       <TaskContainer>
         {tasks?.map((task) => (
@@ -30,12 +31,13 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
-    </Container>
+    </KanbanContainer>
   );
 };
 
-const Container = styled.div`
+export const KanbanContainer = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 246);
