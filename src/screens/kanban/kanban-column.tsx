@@ -12,6 +12,7 @@ import { Task } from "types/task";
 import { Row } from "components/lib";
 import { Button } from "antd/lib/radio";
 import { useDeleteKanban } from "utils/kanban";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const { confirm } = Modal;
 
@@ -27,7 +28,10 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTasksModal();
   return (
-    <Card onClick={() => startEdit(task.id)} style={{ marginBottom: "0.5rem" }}>
+    <Card
+      onClick={() => startEdit(task.id)}
+      style={{ marginBottom: "0.5rem", cursor: "pointer" }}
+    >
       {task.name}
       <TaskTypeIcon id={task.typeId} />
     </Card>
@@ -48,9 +52,21 @@ export const KanbanColumn = React.forwardRef<
       </Row>
 
       <TaskContainer>
-        {tasks?.map((task, index) => {
-          return <TaskCard task={task} key={task.id} />;
-        })}
+        <Drop type={"ROW"} direction={"vertical"} droppableId={"" + kanban.id}>
+          <DropChild style={{ minHeight: "1rem" }}>
+            {tasks?.map((task, index) => (
+              <Drag
+                key={task.id}
+                draggableId={kanban.id + "_" + task.id}
+                index={index}
+              >
+                <div>
+                  <TaskCard task={task} key={task.id} />
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </KanbanContainer>
