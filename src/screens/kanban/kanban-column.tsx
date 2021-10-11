@@ -25,8 +25,8 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
     <KanbanContainer>
       <h3>{kanban.name}</h3>
       <TaskContainer>
-        {tasks?.map((task) => (
-          <Card style={{ marginBottom: "0.5rem" }} key={task.id}>
+        {tasks?.map((task, index) => (
+          <Card key={index} style={{ marginBottom: "0.5rem" }}>
             {task.name}
             <TaskTypeIcon id={task.typeId} />
           </Card>
@@ -40,9 +40,10 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
 export const KanbanContainer = styled.div`
   min-width: 27rem;
   border-radius: 6px;
-  background-color: rgb(244, 245, 246);
+  background-color: rgb(244, 245, 247);
   display: flex;
   flex-direction: column;
+  padding: 0.7rem 0.7rem 1rem;
   margin-right: 1.5rem;
 `;
 
