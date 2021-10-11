@@ -2,13 +2,18 @@ import React from "react";
 import { Kanban } from "types/kanban";
 import { useTasks } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTasksModal, useTasksSearchParams } from "./util";
+import { useKanbanQueryKey, useTasksModal, useTasksSearchParams } from "./util";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
-import { Card } from "antd";
+import { Card, Dropdown, Menu, Modal } from "antd";
 import { CreateTask } from "./createTask";
 import { Task } from "types/task";
+import { Row } from "components/lib";
+import { Button } from "antd/lib/radio";
+import { useDeleteKanban } from "utils/kanban";
+
+const { confirm } = Modal;
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -35,7 +40,11 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
     <KanbanContainer>
-      <h3>{kanban.name}</h3>
+      <Row between={true}>
+        <h3>{kanban.name}</h3>
+        <More kanban={kanban} />
+      </Row>
+
       <TaskContainer>
         {tasks?.map((task, index) => {
           return <TaskCard task={task} key={task.id} />;
@@ -43,6 +52,33 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
         <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </KanbanContainer>
+  );
+};
+
+const More = ({ kanban }: { kanban: Kanban }) => {
+  const { mutateAsync: deleteKanban } = useDeleteKanban(useKanbanQueryKey());
+
+  const startDelete = () => {
+    confirm({
+      title: "Delete Kanban? It is not revertable",
+      onOk: () => {
+        deleteKanban({ id: Number(kanban.id) });
+      },
+    });
+  };
+
+  const overlay = (
+    <Menu>
+      <Menu.Item key={"delete"}>
+        <Button onClick={startDelete}> Delete</Button>
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <Dropdown overlay={overlay} trigger={["click"]}>
+      <Button type={"link"}>...</Button>
+    </Dropdown>
   );
 };
 
