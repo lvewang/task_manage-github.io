@@ -20,16 +20,11 @@ export const useConfig = (
   };
 };
 
-export const useDeleteConfig = (queryKey: QueryKey) =>
-  useConfig(queryKey, (target, old) => {
-    return old?.filter((item) => item.id !== target.id) || [];
-  });
-
 export const useEditConfig = (queryKey: QueryKey) =>
   useConfig(queryKey, (target, old) => {
     return (
       old?.map((item) =>
-        item.id !== target.id ? item : { ...item, ...target }
+        item.id === target.id ? { ...item, ...target } : item
       ) || []
     );
   });

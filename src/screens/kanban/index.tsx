@@ -3,10 +3,11 @@ import { Spin } from "antd";
 import { ScreenContainer } from "components/lib";
 import React from "react";
 import { useKanban } from "utils/kanban";
-import { useTask } from "utils/task";
+import { useTasks } from "utils/task";
 import { CreateKanban } from "./createKanban";
 import { KanbanColumn } from "./kanban-column";
 import { SearchPanel } from "./search-panel";
+import { TaskModal } from "./task-modal";
 import {
   useKanbanSearchParams,
   useProjectInUrl,
@@ -17,7 +18,7 @@ export const KanbanScreen = () => {
   const { data: currentProject } = useProjectInUrl();
   const { data: kanbans = [] } = useKanban(useKanbanSearchParams());
   const { isLoading: kanbanIsLoading } = useKanban(useKanbanSearchParams());
-  const { isLoading: taskIsLoading } = useTask(useTasksSearchParams());
+  const { isLoading: taskIsLoading } = useTasks(useTasksSearchParams());
   const isLoading = kanbanIsLoading || taskIsLoading;
 
   return (
@@ -34,6 +35,7 @@ export const KanbanScreen = () => {
           <CreateKanban />
         </KanbanColumnsContainer>
       )}
+      <TaskModal />
     </ScreenContainer>
   );
 };

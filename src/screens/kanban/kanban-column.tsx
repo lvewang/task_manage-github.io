@@ -1,13 +1,14 @@
 import React from "react";
 import { Kanban } from "types/kanban";
-import { useTask } from "utils/task";
+import { useTasks } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTasksSearchParams } from "./util";
+import { useTasksModal, useTasksSearchParams } from "./util";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
 import { Card } from "antd";
 import { CreateTask } from "./createTask";
+import { Task } from "types/task";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -17,20 +18,28 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   }
   return <img src={name === "task" ? taskIcon : bugIcon} alt="#" />;
 };
+
+const TaskCard = ({ task }: { task: Task }) => {
+  const { startEdit } = useTasksModal();
+  return (
+    <Card onClick={() => startEdit(task.id)} style={{ marginBottom: "0.5rem" }}>
+      {task.name}
+      <TaskTypeIcon id={task.typeId} />
+    </Card>
+  );
+};
+
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
-  const { data: allTasks } = useTask(useTasksSearchParams());
+  const { data: allTasks } = useTasks(useTasksSearchParams());
 
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
     <KanbanContainer>
       <h3>{kanban.name}</h3>
       <TaskContainer>
-        {tasks?.map((task, index) => (
-          <Card key={index} style={{ marginBottom: "0.5rem" }}>
-            {task.name}
-            <TaskTypeIcon id={task.typeId} />
-          </Card>
-        ))}
+        {tasks?.map((task, index) => {
+          return <TaskCard task={task} key={task.id} />;
+        })}
         <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </KanbanContainer>

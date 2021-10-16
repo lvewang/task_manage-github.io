@@ -4,7 +4,7 @@ import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { useDeleteProject, useEditProject } from "utils/project";
+import { useEditProject } from "utils/project";
 import { Project } from "../../types/Project";
 import { User } from "../../types/User";
 import { useProjectModal, useProjectQueryKey } from "./util";
@@ -65,47 +65,8 @@ export const List = ({ users, ...props }: ListProps) => {
             );
           },
         },
-        {
-          render(value, project) {
-            return <More project={project} />;
-          },
-        },
       ]}
       {...props}
     ></Table>
-  );
-};
-
-const More = ({ project }: { project: Project }) => {
-  const editProject = (id: number) => () => startEdit(id);
-  const { startEdit } = useProjectModal();
-  const queryKey = useProjectQueryKey();
-  const { mutate: deleteProject } = useDeleteProject(queryKey);
-  const confirmDeleteProject = (id: number) => () => {
-    confirm({
-      title: "do you really want to delete this project",
-      content: "click confirm to delete",
-      okText: "confirm",
-
-      onOk: () => {
-        deleteProject(id);
-      },
-    });
-  };
-  return (
-    <Dropdown
-      overlay={
-        <Menu>
-          <Menu.Item onClick={editProject(project.id)} key={"edit"}>
-            Edit project
-          </Menu.Item>
-          <Menu.Item onClick={confirmDeleteProject(project.id)} key={"delete"}>
-            Delete project
-          </Menu.Item>
-        </Menu>
-      }
-    >
-      <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
-    </Dropdown>
   );
 };
