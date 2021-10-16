@@ -2,7 +2,11 @@ import { QueryKey, useMutation, useQuery } from "react-query";
 import { Project } from "types/Project";
 import { Task } from "types/task";
 import { useHttp } from "utils/http";
-import { useAddConfig, useEditConfig } from "./use-optimistics-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistics-options";
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
@@ -26,6 +30,14 @@ export const useEditTask = (queryKey: QueryKey) => {
     (params: Partial<Task>) =>
       client(`tasks/${params.id}`, { method: "PATCH", data: params }),
     useEditConfig(queryKey)
+  );
+};
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    ({ id }: { id: number }) => client(`tasks/${id}`, { method: "DELETE" }),
+    useDeleteConfig(queryKey)
   );
 };
 

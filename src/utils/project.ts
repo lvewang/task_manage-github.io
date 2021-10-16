@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Project } from "types/Project";
 import { useHttp } from "utils/http";
-import { useAddConfig } from "./use-optimistics-options";
+import { useAddConfig, useDeleteConfig } from "./use-optimistics-options";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -25,6 +25,14 @@ export const useAddProject = (queryKey: QueryKey) => {
     (params: Partial<Project>) =>
       client(`projects`, { method: "POST", data: params }),
     useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    (id: number) => client(`projects/${id}`, { method: "DELETE" }),
+    useDeleteConfig(queryKey)
   );
 };
 
