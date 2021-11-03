@@ -60,3 +60,12 @@ export const Drag = ({ children, ...props }: DragProps) => {
     </Draggable>
   );
 };
+
+type DragChildProps = any & React.HTMLAttributes<HTMLDivElement>;
+export const DragChild = React.forwardRef<HTMLDivElement, DragChildProps>(
+  ({ children, ...props }, ref) => (
+    <div ref={ref} {...props}>
+      {children}
+    </div>
+  )
+);

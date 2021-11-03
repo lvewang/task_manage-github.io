@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Spin } from "antd";
-import { Drag, Drop, DropChild } from "components/drag-and-drop";
+import { Drag, DragChild, Drop, DropChild } from "components/drag-and-drop";
 import { ScreenContainer } from "components/lib";
 import Column from "rc-table/lib/sugar/Column";
 import React, { useCallback } from "react";
@@ -48,7 +48,9 @@ export const KanbanScreen = () => {
                     draggableId={"kanban_" + kanban.id}
                     index={index}
                   >
-                    <KanbanColumn key={kanban.id} kanban={kanban} />
+                    <DragChild key={kanban.id} kanban={kanban}>
+                      <KanbanColumn kanban={kanban} />
+                    </DragChild>
                   </Drag>
                 ))}
               </DropChild>

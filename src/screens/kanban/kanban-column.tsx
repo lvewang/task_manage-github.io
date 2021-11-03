@@ -12,7 +12,7 @@ import { Task } from "types/task";
 import { Row } from "components/lib";
 import { Button } from "antd/lib/radio";
 import { useDeleteKanban } from "utils/kanban";
-import { Drag, Drop, DropChild } from "components/drag-and-drop";
+import { Drag, DragChild, Drop, DropChild } from "components/drag-and-drop";
 
 const { confirm } = Modal;
 
@@ -38,14 +38,11 @@ const TaskCard = ({ task }: { task: Task }) => {
   );
 };
 
-export const KanbanColumn = React.forwardRef<
-  HTMLDivElement,
-  { kanban: Kanban }
->(({ kanban, ...props }, ref) => {
+export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
-    <KanbanContainer {...props} ref={ref}>
+    <KanbanContainer>
       <Row between={true}>
         <h3>{kanban.name}</h3>
         <More kanban={kanban} key={kanban.id} />
@@ -60,9 +57,9 @@ export const KanbanColumn = React.forwardRef<
                 draggableId={kanban.id + "_" + task.id}
                 index={index}
               >
-                <div>
-                  <TaskCard task={task} key={task.id} />
-                </div>
+                <DragChild key={task.id} task={task}>
+                  <TaskCard task={task} />
+                </DragChild>
               </Drag>
             ))}
           </DropChild>
@@ -71,7 +68,7 @@ export const KanbanColumn = React.forwardRef<
       </TaskContainer>
     </KanbanContainer>
   );
-});
+};
 
 const More = ({ kanban }: { kanban: Kanban }) => {
   const { mutateAsync: deleteKanban } = useDeleteKanban(useKanbanQueryKey());
