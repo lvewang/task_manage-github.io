@@ -13,6 +13,7 @@ import { Row } from "components/lib";
 import { Button } from "antd/lib/radio";
 import { useDeleteKanban } from "utils/kanban";
 import { Drag, DragChild, Drop, DropChild } from "components/drag-and-drop";
+import Mark from "components/mark";
 
 const { confirm } = Modal;
 
@@ -27,12 +28,15 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 
 const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTasksModal();
+  const { name: keyword } = useTasksSearchParams();
   return (
     <Card
       onClick={() => startEdit(task.id)}
       style={{ marginBottom: "0.5rem", cursor: "pointer" }}
     >
-      {task.name}
+      <p>
+        <Mark keyword={keyword} name={task.name} />
+      </p>
       <TaskTypeIcon id={task.typeId} />
     </Card>
   );
